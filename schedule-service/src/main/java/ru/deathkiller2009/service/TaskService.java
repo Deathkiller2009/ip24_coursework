@@ -13,9 +13,9 @@ public interface TaskService {
 
     Optional<TaskDto> getTaskById(Integer id);
 
-    TaskDto createTask(String date, String time, String description);
+    TaskDto createTask(LocalDate date, String title, String time, String description);
 
-    void updateTask(Integer id, String date, String time, String description);
+    void updateTask(Integer id, String title, LocalDate date, String time, String description);
 
     void deleteTask(Integer id);
 

@@ -1,9 +1,6 @@
 package ru.deathkiller2009.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,15 +13,22 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(schema = "schedule", name = "t_task")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String date;
+    @Column(name = "c_title")
+    private String title;
 
+    @Column(name = "c_date")
+    private LocalDate date;
+
+    @Column(name = "c_time")
     private String time;
 
+    @Column(name = "c_details")
     private String description;
 }
