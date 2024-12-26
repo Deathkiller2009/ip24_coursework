@@ -6,19 +6,15 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public record EditTaskPayload(
-
-        @NotBlank(message = "{errors.task.edit.payload.validation.field.title_is_empty}")
-        String title,
 
         @NotNull(message = "{errors.task.edit.payload.validation.field.date_is_missing}")
         LocalDate date,
 
-        @NotBlank(message = "{errors.task.edit.payload.validation.field.time_is_missing}")
-        @Pattern(regexp = "\\d\\d:\\d\\d", message = "{errors.task.edit.payload.validation.field.time_is_in_wrong_format}")
-        String time,
+        LocalTime time,
 
         @Size(min = 1, max = 1000, message = "{errors.task.edit.payload.validation.field.details_is_too_small_or_too_big}")
-        String details) {
+        String description) {
 }

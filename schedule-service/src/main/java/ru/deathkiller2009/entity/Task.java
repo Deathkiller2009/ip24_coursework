@@ -20,15 +20,12 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "c_title")
-    private String title;
-
     @Column(name = "c_date")
     private LocalDate date;
 
     @Column(name = "c_time")
-    private String time;
+    private LocalTime time;
 
-    @Column(name = "c_details")
+    @Column(name = "c_description")
     private String description;
 }

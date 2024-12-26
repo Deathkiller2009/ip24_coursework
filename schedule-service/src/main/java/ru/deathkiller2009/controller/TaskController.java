@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/task-api/tasks/{taskId:\\d+}")
 @RequiredArgsConstructor
+@CrossOrigin
 public class TaskController {
 
     private final TaskService taskService;
@@ -42,7 +43,7 @@ public class TaskController {
                 throw new BindException(bindingResult);
             }
         }
-        this.taskService.updateTask(id, payload.title(), payload.date(), payload.time(), payload.details());
+        this.taskService.updateTask(id, payload.date(), payload.time(), payload.description());
         return ResponseEntity.noContent()
                 .build();
     }

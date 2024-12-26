@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface TaskService {
 
-    List<TaskDto> getAllTasks();
+    List<TaskDto> getAllTasks(LocalDate date);
 
     Optional<TaskDto> getTaskById(Integer id);
 
-    TaskDto createTask(LocalDate date, String title, String time, String description);
+    TaskDto createTask(LocalDate date, LocalTime time, String description);
 
-    void updateTask(Integer id, String title, LocalDate date, String time, String description);
+    void updateTask(Integer id, LocalDate date, LocalTime time, String description);
 
     void deleteTask(Integer id);
 

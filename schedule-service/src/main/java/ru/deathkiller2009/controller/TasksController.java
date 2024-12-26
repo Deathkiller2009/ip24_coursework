@@ -11,18 +11,22 @@ import ru.deathkiller2009.controller.payload.NewTaskPayload;
 import ru.deathkiller2009.dto.TaskDto;
 import ru.deathkiller2009.service.TaskService;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/task-api/tasks")
+@CrossOrigin
 public class TasksController {
 
     private final TaskService taskService;
 
     @GetMapping
-    public List<TaskDto> getAllTasks() {
-        return taskService.getAllTasks();
+    public List<TaskDto> getAllTasks(@RequestParam LocalDate date, Principal principal) {
+        System.out.println(principal);
+        return taskService.getAllTasks(date);
     }
 
     @PostMapping
@@ -36,7 +40,7 @@ public class TasksController {
                 throw new BindException(bindingResult);
             }
         }
-        TaskDto createdTask = this.taskService.createTask(payload.date(), payload.title(), payload.time(), payload.details());
+        TaskDto createdTask = this.taskService.createTask(payload.date(), payload.time(), payload.description());
         return ResponseEntity.created(uriComponentsBuilder.replacePath("/task-api/tasks/{id}")
                 .build(createdTask.id()))
                 .body(createdTask);

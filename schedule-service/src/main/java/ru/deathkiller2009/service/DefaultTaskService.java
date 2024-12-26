@@ -26,8 +26,8 @@ public class DefaultTaskService implements TaskService {
     private final TaskMapper taskMapper;
 
     @Override
-    public List<TaskDto> getAllTasks() {
-        return this.taskRepository.findAll()
+    public List<TaskDto> getAllTasks(LocalDate date) {
+        return this.taskRepository.findAllByDate(date)
                 .stream().map(taskMapper::toTaskDto)
                 .toList();
     }
@@ -40,23 +40,21 @@ public class DefaultTaskService implements TaskService {
 
     @Override
     @Transactional
-    public TaskDto createTask(LocalDate date, String title, String time, String description) {
+    public TaskDto createTask(LocalDate date, LocalTime time, String description) {
         getTaskByDateAndTime(date, time).ifPresent((taskDto -> {throw new TaskAlreadyExistsException("error.task.task_with_this_date_and_time_already_exists");}));
-        return Stream.of(this.taskRepository.save(new Task(null, title, date, time, description)))
+        return Stream.of(this.taskRepository.save(new Task(null, date, time, description)))
                 .map(taskMapper::toTaskDto)
                 .toList().getFirst();
     }
 
     @Override
     @Transactional
-    public void updateTask(Integer id, String title, LocalDate date, String time, String description) {
+    public void updateTask(Integer id, LocalDate date, LocalTime time, String description) {
         getTaskByDateAndTime(date, time).ifPresent((taskDto -> {throw new TaskAlreadyExistsException("error.task.task_with_this_date_and_time_already_exists");}));
         this.taskRepository.findById(id)
                 .ifPresentOrElse(task -> {
-                    task.setTitle(title);
                     task.setDate(date);
                     task.setTime(time);
-                    task.setDescription(description);
                 }, () -> {
                     throw new NoSuchElementException("error.task.no_task_under_such_id");
                 });
@@ -68,7 +66,7 @@ public class DefaultTaskService implements TaskService {
         this.taskRepository.deleteById(id);
     }
 
-    public Optional<TaskDto> getTaskByDateAndTime(LocalDate date, String time) {
+    public Optional<TaskDto> getTaskByDateAndTime(LocalDate date, LocalTime time) {
         return this.taskRepository.findTaskByDateAndTime(date, time)
                 .map(taskMapper::toTaskDto);
     }
