@@ -24,8 +24,8 @@ public class TasksController {
     private final TaskService taskService;
 
     @GetMapping
-    public List<TaskDto> getAllTasks(@RequestParam LocalDate date, Principal principal) {
-        System.out.println(principal);
+    public List<TaskDto> getAllTasks(@RequestParam LocalDate date) {
+
         return taskService.getAllTasks(date);
     }
 
