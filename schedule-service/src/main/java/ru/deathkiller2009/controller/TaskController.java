@@ -17,21 +17,17 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 @CrossOrigin
 public class TaskController {
-
     private final TaskService taskService;
-
     @ModelAttribute("task")
     public TaskDto getTaskById(@PathVariable("taskId") Integer id) {
         return this.taskService
                 .getTaskById(id)
                 .orElseThrow(() -> new NoSuchElementException("error.task.no_task_under_such_id"));
     }
-
     @GetMapping
     public TaskDto getTask(@ModelAttribute("task") TaskDto taskDto) {
         return taskDto;
     }
-
     @PatchMapping
     public ResponseEntity<Void> updateTask(@PathVariable("taskId") Integer id,
                                            @RequestBody @Valid EditTaskPayload payload,
@@ -47,7 +43,6 @@ public class TaskController {
         return ResponseEntity.noContent()
                 .build();
     }
-
     @DeleteMapping
     public ResponseEntity<Void> deleteTask(@PathVariable("taskId") Integer id) {
         this.taskService.deleteTask(id);
